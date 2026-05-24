@@ -32,39 +32,69 @@
       </label>
     </section>
 
-    <section class="stats">
-      <div class="card stat"><div class="stat-label">Pageviews</div><div class="stat-value" id="stat-pageviews">—</div></div>
-      <div class="card stat"><div class="stat-label">Unique visitors</div><div class="stat-value" id="stat-uniques">—</div></div>
+    <h2 class="section-title">UTM breakdown</h2>
+
+    <section class="utm-grid utm-grid-3">
+      <div class="card">
+        <div class="card-head"><h3>Source</h3><span class="muted">utm_source</span></div>
+        <table id="utm-source-table" class="data-table bar-table"></table>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Medium</h3><span class="muted">utm_medium</span></div>
+        <table id="utm-medium-table" class="data-table bar-table"></table>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Campaign</h3><span class="muted">utm_campaign</span></div>
+        <table id="utm-campaign-table" class="data-table bar-table"></table>
+      </div>
+    </section>
+
+    <section class="utm-grid utm-grid-2">
+      <div class="card">
+        <div class="card-head"><h3>Term</h3><span class="muted">utm_term</span></div>
+        <table id="utm-term-table" class="data-table bar-table"></table>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Content</h3><span class="muted">utm_content</span></div>
+        <table id="utm-content-table" class="data-table bar-table"></table>
+      </div>
     </section>
 
     <section class="card">
       <h2>Where traffic comes from</h2>
-      <p class="muted">UTM source when tagged, otherwise classified from the referrer. This is the headline view for social-driven traffic.</p>
-      <canvas id="sources-chart" height="240"></canvas>
+      <p class="muted">Tagged source when present, otherwise inferred from the referrer.</p>
+      <div class="chart-box chart-box-sm"><canvas id="sources-chart"></canvas></div>
     </section>
 
-    <section class="card">
-      <h2>Timeline</h2>
-      <canvas id="timeline-chart" height="180"></canvas>
+    <section class="kpis">
+      <div class="card kpi">
+        <div class="kpi-label">Pageviews</div>
+        <div class="kpi-value" id="kpi-pageviews">—</div>
+      </div>
+      <div class="card kpi">
+        <div class="kpi-label">Unique visitors</div>
+        <div class="kpi-value" id="kpi-uniques">—</div>
+      </div>
+      <div class="card kpi">
+        <div class="kpi-label">Tagged with UTMs</div>
+        <div class="kpi-value" id="kpi-tagged">—</div>
+        <div class="kpi-sub muted" id="kpi-tagged-sub">of pageviews carry utm_source</div>
+      </div>
+      <div class="card kpi">
+        <div class="kpi-label">Top campaign</div>
+        <div class="kpi-value kpi-text" id="kpi-top-campaign">—</div>
+        <div class="kpi-sub muted" id="kpi-top-campaign-sub">no tagged campaigns yet</div>
+      </div>
     </section>
 
     <section class="grid-2">
       <div class="card">
-        <div class="row-between">
-          <h2>UTM breakdown</h2>
-          <select id="utm-dim">
-            <option value="source">source</option>
-            <option value="medium">medium</option>
-            <option value="campaign">campaign</option>
-            <option value="term">term</option>
-            <option value="content">content</option>
-          </select>
-        </div>
-        <table id="utm-table" class="data-table"></table>
+        <h2>Referrers <span class="help" tabindex="0" data-tip="&quot;Direct&quot; means the browser sent no referrer. Usually: typed URL, bookmark, in-app browsers that strip referrers (Instagram, TikTok, native Mail), HTTPS→HTTP downgrade, or privacy tools. Tag your links with UTMs to pull traffic out of this bucket.">?</span></h2>
+        <table id="referrers-table" class="data-table"></table>
       </div>
       <div class="card">
-        <h2>Referrers</h2>
-        <table id="referrers-table" class="data-table"></table>
+        <h2>Top pages</h2>
+        <table id="pages-table" class="data-table"></table>
       </div>
     </section>
 
@@ -74,8 +104,8 @@
     </section>
 
     <section class="card">
-      <h2>Top pages</h2>
-      <table id="pages-table" class="data-table"></table>
+      <h2>Timeline</h2>
+      <div class="chart-box chart-box-md"><canvas id="timeline-chart"></canvas></div>
     </section>
   </main>
 

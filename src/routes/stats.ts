@@ -42,7 +42,9 @@ export async function handleStats(request: Request, env: Env): Promise<Response>
 
 async function overview(env: Env, w: Window): Promise<Response> {
   const row = await env.DB.prepare(
-    `SELECT COUNT(*) AS pageviews, COUNT(DISTINCT visitor_hash) AS uniques
+    `SELECT COUNT(*) AS pageviews,
+            COUNT(DISTINCT visitor_hash) AS uniques,
+            SUM(CASE WHEN utm_source IS NOT NULL AND utm_source <> '' THEN 1 ELSE 0 END) AS tagged
      FROM events WHERE site_id = ? AND ts BETWEEN ? AND ?`,
   ).bind(w.siteId, w.from, w.to).first();
   return json({ overview: row });
