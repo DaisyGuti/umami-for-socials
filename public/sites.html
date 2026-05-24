@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sites · Umami for Socials</title>
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><a href="/">Umami for Socials</a></div>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/sites">Sites</a>
+      <a href="/utm-builder">UTM Builder</a>
+      <button id="logout" class="link">Log out</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Add a site</h2>
+      <form id="create-site">
+        <label for="site-name">Name</label>
+        <input id="site-name" name="name" type="text" maxlength="64" placeholder="My blog" required />
+        <button type="submit">Create site</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Your sites</h2>
+      <table id="sites-table" class="data-table"></table>
+    </section>
+
+    <section class="card snippet-card" id="snippet-card" hidden>
+      <h2>Embed snippet</h2>
+      <p class="muted">Paste this into the &lt;head&gt; of the site you want to track.</p>
+      <pre><code id="snippet"></code></pre>
+      <button id="copy-snippet">Copy</button>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+  <script src="/sites.js"></script>
+</body>
+</html>

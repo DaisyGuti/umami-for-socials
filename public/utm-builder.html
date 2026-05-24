@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UTM Builder · Umami for Socials</title>
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><a href="/">Umami for Socials</a></div>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/sites">Sites</a>
+      <a href="/utm-builder">UTM Builder</a>
+      <button id="logout" class="link">Log out</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Build a tagged link</h2>
+      <p class="muted">
+        Consistent UTM tags = clean reports. Pick a preset for the platform
+        you're posting from, fill in the campaign, then copy the URL into your
+        bio / post / email / chat.
+      </p>
+
+      <form id="utm-form" class="utm-form">
+        <label>Destination URL
+          <input id="url" type="url" placeholder="https://example.com/landing" required />
+        </label>
+
+        <div class="utm-presets" id="presets"></div>
+
+        <div class="grid-2">
+          <label>utm_source (where it's posted)
+            <input id="utm_source" type="text" placeholder="instagram" />
+          </label>
+          <label>utm_medium (how it gets there)
+            <input id="utm_medium" type="text" placeholder="bio" />
+          </label>
+          <label>utm_campaign (what it's promoting)
+            <input id="utm_campaign" type="text" placeholder="spring_launch" />
+          </label>
+          <label>utm_term (optional, keywords)
+            <input id="utm_term" type="text" />
+          </label>
+          <label>utm_content (optional, variant)
+            <input id="utm_content" type="text" placeholder="cta_button_a" />
+          </label>
+        </div>
+      </form>
+
+      <h3>Tagged URL</h3>
+      <pre><code id="output">https://example.com/landing</code></pre>
+      <button id="copy-url">Copy URL</button>
+    </section>
+
+    <section class="card">
+      <h2>Suggested source / medium pairs</h2>
+      <p class="muted">These match the referrer classifier so your dashboard stays consistent.</p>
+      <table class="data-table" id="conventions-table"></table>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+  <script src="/utm-builder.js"></script>
+</body>
+</html>

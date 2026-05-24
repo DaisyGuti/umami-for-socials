@@ -1,0 +1,34 @@
+{
+	// Cloudflare Workers config. JSONC is Cloudflare's current preferred format
+	// (allows comments) — see https://developers.cloudflare.com/workers/wrangler/configuration/
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "umami-for-socials",
+	"main": "src/worker.ts",
+	"compatibility_date": "2025-01-01",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	// Static assets (dashboard HTML/CSS/JS + tracker.js) served from ./public.
+	// Unmatched paths fall through to the Worker, which routes /api/* and serves
+	// assets for everything else via env.ASSETS.fetch().
+	"assets": {
+		"directory": "./public",
+		"binding": "ASSETS"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "umami-for-socials",
+			"database_id": "9928f349-2885-40ec-8a20-a4e76b27c285"
+		}
+	],
+	// ADMIN_PASSWORD and SESSION_SECRET are intentionally NOT defined here.
+	// They live ONLY in two places, both gitignored:
+	//   - Production: set via `wrangler secret put <NAME>`
+	//   - Local dev:  set in .dev.vars (see .dev.vars.example)
+	// Keeping them out of this file means there's no placeholder to accidentally
+	// ship and no precedence ambiguity between `vars` and `secrets`.
+	"observability": {
+		"enabled": true
+	}
+}

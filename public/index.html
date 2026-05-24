@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard · Umami for Socials</title>
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><a href="/">Umami for Socials</a></div>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/sites">Sites</a>
+      <a href="/utm-builder">UTM Builder</a>
+      <button id="logout" class="link">Log out</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="controls">
+      <label>Site
+        <select id="site-select"></select>
+      </label>
+      <label>Range
+        <select id="range-select">
+          <option value="86400">Last 24 hours</option>
+          <option value="604800" selected>Last 7 days</option>
+          <option value="2592000">Last 30 days</option>
+          <option value="7776000">Last 90 days</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="stats">
+      <div class="card stat"><div class="stat-label">Pageviews</div><div class="stat-value" id="stat-pageviews">—</div></div>
+      <div class="card stat"><div class="stat-label">Unique visitors</div><div class="stat-value" id="stat-uniques">—</div></div>
+    </section>
+
+    <section class="card">
+      <h2>Where traffic comes from</h2>
+      <p class="muted">UTM source when tagged, otherwise classified from the referrer. This is the headline view for social-driven traffic.</p>
+      <canvas id="sources-chart" height="240"></canvas>
+    </section>
+
+    <section class="card">
+      <h2>Timeline</h2>
+      <canvas id="timeline-chart" height="180"></canvas>
+    </section>
+
+    <section class="grid-2">
+      <div class="card">
+        <div class="row-between">
+          <h2>UTM breakdown</h2>
+          <select id="utm-dim">
+            <option value="source">source</option>
+            <option value="medium">medium</option>
+            <option value="campaign">campaign</option>
+            <option value="term">term</option>
+            <option value="content">content</option>
+          </select>
+        </div>
+        <table id="utm-table" class="data-table"></table>
+      </div>
+      <div class="card">
+        <h2>Referrers</h2>
+        <table id="referrers-table" class="data-table"></table>
+      </div>
+    </section>
+
+    <section class="grid-2">
+      <div class="card"><h2>Countries</h2><table id="countries-table" class="data-table"></table></div>
+      <div class="card"><h2>Languages</h2><table id="languages-table" class="data-table"></table></div>
+    </section>
+
+    <section class="card">
+      <h2>Top pages</h2>
+      <table id="pages-table" class="data-table"></table>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="/app.js"></script>
+  <script src="/dashboard.js"></script>
+</body>
+</html>

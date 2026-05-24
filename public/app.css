@@ -1,0 +1,134 @@
+:root {
+  --bg: #f7f7fb;
+  --card: #ffffff;
+  --ink: #15151a;
+  --muted: #6b6b78;
+  --line: #e5e5ec;
+  --accent: #6c4cf5;
+  --accent-ink: #ffffff;
+  --danger: #d3402b;
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(20, 20, 40, 0.04), 0 4px 12px rgba(20, 20, 40, 0.04);
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
+h2 { font-size: 1.1rem; margin: 0 0 0.75rem; }
+h3 { font-size: 0.95rem; margin: 1rem 0 0.5rem; }
+p { margin: 0 0 0.75rem; }
+.muted { color: var(--muted); font-size: 0.9rem; }
+.error { color: var(--danger); }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.5rem;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.topbar .brand a { color: var(--ink); font-weight: 600; }
+.topbar nav { display: flex; align-items: center; gap: 1rem; }
+.topbar nav a { color: var(--ink); font-weight: 500; }
+.topbar nav a:hover { color: var(--accent); }
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem 1.25rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.controls label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; color: var(--muted); }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.stat { text-align: left; }
+.stat-label { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.stat-value { font-size: 1.8rem; font-weight: 600; margin-top: 0.25rem; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
+.row-between { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+.data-table th, .data-table td { text-align: left; padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--line); }
+.data-table th { color: var(--muted); font-weight: 500; font-size: 0.82rem; }
+.data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+input[type="text"], input[type="url"], input[type="password"], select {
+  font: inherit;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  width: 100%;
+}
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+button, .btn {
+  font: inherit;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 0.95rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  cursor: pointer;
+}
+button:hover { filter: brightness(0.95); }
+button.link {
+  background: transparent;
+  color: var(--accent);
+  padding: 0.25rem 0;
+}
+button.link:hover { text-decoration: underline; filter: none; }
+button.danger { background: var(--danger); }
+
+pre { background: #f0f0f5; border-radius: 8px; padding: 0.75rem; overflow-x: auto; }
+code { font-family: var(--mono); font-size: 0.85rem; }
+
+form { display: grid; gap: 0.75rem; }
+form label { display: grid; gap: 0.25rem; font-size: 0.85rem; color: var(--muted); }
+form input { color: var(--ink); }
+
+.login-page { min-height: 100vh; display: grid; place-items: center; }
+.login-card { width: 100%; max-width: 380px; }
+
+.utm-form { gap: 1rem; }
+.utm-presets { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.utm-presets button { background: var(--bg); color: var(--ink); border: 1px solid var(--line); }
+
+@media (max-width: 640px) {
+  .topbar { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+  .topbar nav { flex-wrap: wrap; }
+}
