@@ -242,6 +242,9 @@ p { margin: 0 0 0.75rem; }
 
 /* Drill-down: filter bar + clickable channel rows. */
 .filter-bar { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; padding: 0.1rem 0; }
+/* display:flex above overrides the UA [hidden] rule, so the bar would stay
+   visible when cleared — restore hiding when the attribute is set. */
+.filter-bar[hidden] { display: none; }
 .filter-bar-text { color: var(--muted); font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
 .filter-chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.34rem 0.8rem; border-radius: 999px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--ink); }
 .filter-clear { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.34rem 0.8rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; }

@@ -55,6 +55,28 @@ npm run db:apply:local
 npm run dev                           # http://localhost:8787
 ```
 
+## Testing
+
+Unit tests (Vitest) cover the pure helpers:
+
+```bash
+npm test
+```
+
+End-to-end tests (Playwright) drive the real app — sign-in, the cookie gate,
+creating a site, and the dashboard — against `wrangler dev`:
+
+```bash
+npx playwright install chromium       # one-time: fetch the browser
+npm run db:apply:local                # ensure the local D1 schema exists
+npm run e2e                           # auto-starts the dev server, runs headless
+```
+
+Playwright reads the admin password from `E2E_ADMIN_PASSWORD`, falling back to
+`ADMIN_PASSWORD` in `.dev.vars`, so no extra setup is needed. Other handy
+scripts: `npm run e2e:ui` (interactive), `npm run e2e:smoke` (core flows only),
+`npm run e2e:report` (open the last HTML report). Tests live in `e2e/`.
+
 ## Embedding the tracker
 
 Add to the `<head>` of the site you want to track:
@@ -116,8 +138,10 @@ src/
   routes/                # auth, collect, sites, stats
 public/                  # tracker.js + dashboard HTML/CSS/JS
 tests/                   # vitest unit tests for the pure helpers
+e2e/                     # playwright end-to-end tests (auth, sites, dashboard, a11y)
 schema.sql               # D1 schema (safe to re-run)
 wrangler.jsonc           # Cloudflare Workers + D1 + Static Assets config
+playwright.config.ts     # E2E config: auto-starts wrangler dev, auth storage state
 ```
 
 ## Built with

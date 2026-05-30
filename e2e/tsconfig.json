@@ -1,0 +1,19 @@
+{
+  // E2E tests run in Node (Playwright runner) and touch the DOM via the page,
+  // so they need a different lib/types set than the Workers source in ../src.
+  // Kept separate so `npm run typecheck` (which compiles only src/**) stays a
+  // clean Workers build, while editors still type-check the specs correctly.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "../playwright.config.ts"]
+}
