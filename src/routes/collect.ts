@@ -2,7 +2,7 @@ import type { Env } from '../types';
 import { COLLECT_CORS, corsPreflight, json } from '../lib/response';
 import { visitorHash } from '../lib/hash';
 import { classifyReferrer, isBotUserAgent } from '../lib/referrer';
-import { asString, clip, LIMITS } from '../lib/validate';
+import { asNumber, asString, clip, LIMITS } from '../lib/validate';
 
 export async function handleCollect(request: Request, env: Env): Promise<Response> {
   if (request.method === 'OPTIONS') return corsPreflight();
@@ -50,12 +50,18 @@ export async function handleCollect(request: Request, env: Env): Promise<Respons
   const selfHost = asString(body.host)?.toLowerCase();
   const referrer = classifyReferrer(referrerRaw, selfHost ?? undefined);
 
+  // A "conversion" event carries an order value and is attributed to whatever
+  // channel the visitor arrived on (same utm/referrer fields as a pageview), so
+  // revenue rolls up per channel exactly like traffic does.
+  const isConversion = asString(body.type) === 'conversion';
+  const revenue = isConversion ? Math.max(0, asNumber(body.revenue) ?? 0) : null;
+
   await env.DB.prepare(
     `INSERT INTO events (
        site_id, ts, path, referrer, referrer_host, referrer_source,
        utm_source, utm_medium, utm_campaign, utm_term, utm_content,
-       country, language, visitor_hash
-     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       country, language, visitor_hash, event_type, revenue
+     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   ).bind(
     siteId,
     Math.floor(Date.now() / 1000),
@@ -71,6 +77,8 @@ export async function handleCollect(request: Request, env: Env): Promise<Respons
     country,
     language,
     hash,
+    isConversion ? 'conversion' : 'pageview',
+    revenue,
   ).run();
 
   return json({ ok: true }, 200, COLLECT_CORS);

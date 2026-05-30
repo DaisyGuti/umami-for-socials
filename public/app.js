@@ -32,6 +32,18 @@
     });
   }
 
+  // Theme toggle. The pre-paint script in <head> set the initial theme; here we
+  // just flip + persist it, and let the page (and chart, via the event) react.
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('ufs-theme', next); } catch (_) {}
+      window.dispatchEvent(new CustomEvent('themechange', { detail: next }));
+    });
+  }
+
   window.UFS = {
     async api(path, opts) {
       const res = await fetch(path, {

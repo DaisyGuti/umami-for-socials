@@ -19,7 +19,7 @@
     const data = await api('/api/sites');
     const rows = data.sites || [];
     if (!rows.length) {
-      tableEl.innerHTML = `<tbody><tr><td class="muted">No sites yet. Add one above.</td></tr></tbody>`;
+      tableEl.innerHTML = `<tbody><tr><td><div class="empty-state">No sites yet. Add one above.</div></td></tr></tbody>`;
       return;
     }
     tableEl.innerHTML =

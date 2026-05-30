@@ -4,12 +4,33 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign in · Umami for Socials</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="/app.css" />
+  <script>
+    // Set the theme before first paint so there's no flash. Saved choice wins,
+    // otherwise follow the OS preference.
+    (function () {
+      try {
+        var t = localStorage.getItem('ufs-theme');
+        if (t !== 'light' && t !== 'dark') {
+          t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body class="login-page">
   <main class="card login-card">
+    <div class="hero-kicker">Private analytics</div>
     <h1>Umami for Socials</h1>
-    <p class="muted">Sign in to view your analytics.</p>
+    <p class="muted">Sign in to review campaign performance and UTM coverage.</p>
+    <div class="proof-chips" aria-label="Dashboard focus areas">
+      <span>UTM-first</span>
+      <span>Founder-ready</span>
+    </div>
     <form id="login-form">
       <label for="password">Admin password</label>
       <input id="password" name="password" type="password" autocomplete="current-password" required autofocus />

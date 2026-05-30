@@ -1,3 +1,4 @@
+import { handleAnnotations } from './routes/annotations';
 import { handleAuth } from './routes/auth';
 import { handleCollect } from './routes/collect';
 import { handleSites } from './routes/sites';
@@ -17,6 +18,7 @@ export default {
     if (path === '/api/collect') return handleCollect(request, env);
     if (path.startsWith('/api/auth/')) return handleAuth(request, env);
     if (path === '/api/sites' || path.startsWith('/api/sites/')) return handleSites(request, env);
+    if (path === '/api/annotations' || path.startsWith('/api/annotations/')) return handleAnnotations(request, env);
     if (path.startsWith('/api/stats/')) return handleStats(request, env);
 
     if (path.startsWith('/api/')) return json({ error: 'not found' }, 404);

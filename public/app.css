@@ -1,24 +1,83 @@
 :root {
-  --bg: #f7f7fb;
+  --bg: #f5f7f8;
   --card: #ffffff;
-  --ink: #15151a;
-  --muted: #6b6b78;
-  --line: #e5e5ec;
-  --accent: #6c4cf5;
+  --ink: #17191c;
+  --muted: #4f5862;
+  --line: #dfe5e8;
+  --accent: #007c7a;
+  --accent-bright: #008f8c;
+  --accent-2: #edd335;
   --accent-ink: #ffffff;
-  --danger: #d3402b;
+  --danger: #b7352d;
+  --untagged: #c99528;
+  --up: #1f9d57;
   --radius: 10px;
-  --shadow: 0 1px 2px rgba(20, 20, 40, 0.04), 0 4px 12px rgba(20, 20, 40, 0.04);
+  --shadow: 0 1px 2px rgba(23, 25, 28, 0.04), 0 8px 24px -12px rgba(23, 25, 28, 0.14);
+  --display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
+
+/* Dark mode -----------------------------------------------------------------
+   Set on <html data-theme="dark"> by a pre-paint script (saved choice, else OS).
+   A teal-charcoal palette — deliberately not flat gray — so the brand colors
+   still pop and the page reads premium, not washed out. */
+:root[data-theme="dark"] {
+  --bg: #0b1413;
+  --card: #111d1b;
+  --ink: #eaf1ef;
+  --muted: #8ba39e;
+  --line: #223230;
+  --accent: #25c4ba;
+  --accent-bright: #38d6cc;
+  --accent-2: #f4dd4b;
+  --accent-ink: #06201f;
+  --danger: #ef5b52;
+  --untagged: #e0b03f;
+  --up: #3ad17e;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 14px 30px -16px rgba(0, 0, 0, 0.7);
+}
+
+/* Dark surfaces for the parts that hardcode light colors. */
+:root[data-theme="dark"] body {
+  background: radial-gradient(1100px 420px at 50% -160px, #10302d 0%, rgba(16, 48, 45, 0) 72%), var(--bg);
+}
+:root[data-theme="dark"] .topbar { background: rgba(11, 20, 19, 0.82); }
+:root[data-theme="dark"] .topbar nav a[aria-current="page"] { background: rgba(37, 196, 186, 0.16); }
+:root[data-theme="dark"] .hero-panel { background: linear-gradient(180deg, #10211f 0%, var(--card) 70%); }
+:root[data-theme="dark"] .utm-grid .card.utm-hero { background: linear-gradient(180deg, #14302d 0%, var(--card) 60%); }
+:root[data-theme="dark"] .card-head .muted { background: rgba(37, 196, 186, 0.14); }
+:root[data-theme="dark"] .utm-insight { background: rgba(255, 255, 255, 0.04); }
+:root[data-theme="dark"] .data-table tbody tr:hover td { background-color: rgba(255, 255, 255, 0.04); }
+:root[data-theme="dark"] .help { background: rgba(37, 196, 186, 0.16); }
+:root[data-theme="dark"] .empty-state { background: rgba(255, 255, 255, 0.03); }
+:root[data-theme="dark"] pre { background: #0e1a18; }
+:root[data-theme="dark"] input[type="text"],
+:root[data-theme="dark"] input[type="url"],
+:root[data-theme="dark"] input[type="password"],
+:root[data-theme="dark"] select { background: #0e1a18; border-color: var(--line); color: var(--ink); }
+:root[data-theme="dark"] .utm-presets button { background: rgba(37, 196, 186, 0.10); border-color: var(--line); color: var(--ink); }
+
+/* Hero KPI cards lift off the near-black bg with a brighter teal. */
+:root[data-theme="dark"] .kpi-hero {
+  background: linear-gradient(155deg, #0c4f4c 0%, #13988f 100%);
+  box-shadow: 0 16px 34px -18px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+/* Theme toggle (sun/moon) in the topbar. */
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; padding: 0.4rem; }
+.theme-toggle svg { display: block; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
 
 * { box-sizing: border-box; }
 
 html, body {
   margin: 0;
   padding: 0;
-  background: var(--bg);
+  /* A soft teal halo behind the header gives the page depth instead of a flat
+     gray field — premium pages have a light source, not an even wash. */
+  background: radial-gradient(1100px 420px at 50% -160px, #d9efed 0%, rgba(217, 239, 237, 0) 72%), var(--bg);
   color: var(--ink);
   font-family: var(--sans);
   font-size: 15px;
@@ -28,9 +87,10 @@ html, body {
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-h1 { font-size: 1.6rem; margin: 0 0 0.25rem; }
-h2 { font-size: 1.1rem; margin: 0 0 0.75rem; }
-h3 { font-size: 0.95rem; margin: 1rem 0 0.5rem; }
+h1, h2, h3 { color: var(--ink); letter-spacing: 0; }
+h1 { font-family: var(--display); font-size: clamp(2rem, 3.4vw, 3.3rem); line-height: 1.02; margin: 0 0 0.7rem; font-weight: 700; max-width: 14ch; letter-spacing: -0.01em; }
+h2 { font-family: var(--display); font-size: 1.15rem; font-weight: 700; margin: 0 0 0.75rem; letter-spacing: -0.005em; }
+h3 { font-family: var(--display); font-size: 0.95rem; font-weight: 700; margin: 1rem 0 0.5rem; }
 p { margin: 0 0 0.75rem; }
 .muted { color: var(--muted); font-size: 0.9rem; }
 .error { color: var(--danger); }
@@ -39,21 +99,34 @@ p { margin: 0 0 0.75rem; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.85rem 1.5rem;
-  background: var(--card);
+  padding: 0.9rem clamp(1rem, 3vw, 2rem);
+  background: rgba(255, 255, 255, 0.88);
   border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(14px);
 }
-.topbar .brand a { color: var(--ink); font-weight: 600; }
-.topbar nav { display: flex; align-items: center; gap: 1rem; }
-.topbar nav a { color: var(--ink); font-weight: 500; }
+.topbar .brand a { color: var(--ink); font-weight: 700; letter-spacing: 0.01em; }
+.topbar nav { display: flex; align-items: center; gap: 0.35rem; }
+.topbar nav a, .topbar nav button.link {
+  color: var(--muted);
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.42rem 0.7rem;
+}
+.topbar nav a[aria-current="page"] {
+  background: #e8f5f4;
+  color: var(--ink);
+}
 .topbar nav a:hover { color: var(--accent); }
 
 .container {
-  max-width: 1080px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 1.25rem;
+  padding: clamp(1rem, 3vw, 2rem);
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .card {
@@ -61,41 +134,267 @@ p { margin: 0 0 0.75rem; }
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  padding: 1rem 1.25rem;
+  padding: 1.05rem 1.15rem;
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
+  gap: 1.5rem;
+  align-items: end;
+  padding: clamp(1.2rem, 4vw, 2.25rem);
+  background: linear-gradient(180deg, #f3faf9 0%, #ffffff 70%);
+  border-top: 3px solid var(--accent);
+}
+
+.hero-kicker {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.7rem;
+  text-transform: uppercase;
+}
+
+.hero-copy {
+  max-width: 62ch;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+/* Iteration 1 — the marketing headline was the single largest thing on the
+   page, outsizing the money KPIs. Drop it below hero-KPI scale so the data,
+   not the slogan, is where the eye lands first. */
+.hero-panel h1 { font-size: clamp(1.55rem, 2.6vw, 2.25rem); font-weight: 650; max-width: none; }
+
+.proof-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+/* Static descriptors, not controls — a muted keyword list with a small teal
+   dot, so they read as "what this is for" rather than clickable filters. */
+.proof-chips span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.proof-chips span::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex: 0 0 auto;
 }
 
 .controls {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
-.controls label { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.85rem; color: var(--muted); }
+.controls label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.76rem; color: var(--muted); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; min-width: 150px; }
 
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
 .stat { text-align: left; }
 .stat-label { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
 .stat-value { font-size: 1.8rem; font-weight: 600; margin-top: 0.25rem; }
 
-.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-.kpi { display: flex; flex-direction: column; gap: 0.2rem; }
-.kpi-label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
-.kpi-value { font-size: 1.9rem; font-weight: 600; line-height: 1.1; margin-top: 0.2rem; }
-.kpi-value.kpi-text { font-size: 1.15rem; font-weight: 600; line-height: 1.3; word-break: break-word; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.kpi { display: flex; flex-direction: column; gap: 0.3rem; min-height: 124px; justify-content: center; }
+.kpi-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
+.kpi-value { font-family: var(--display); font-size: clamp(2rem, 3vw, 2.55rem); font-weight: 700; line-height: 0.98; margin-top: 0.25rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.kpi-value.kpi-text { font-family: var(--sans); font-size: 1.18rem; font-weight: 750; line-height: 1.22; word-break: break-word; }
 .kpi-sub { font-size: 0.8rem; margin-top: 0.15rem; }
+/* Iteration 5 — keep big numerals on one line (percentages/thousands shouldn't
+   wrap mid-figure); nudge the KPI band off the panel above it. */
+.kpi-value:not(.kpi-text) { white-space: nowrap; }
+.kpis { margin-top: 0.15rem; }
 
-.section-title { font-size: 1.05rem; margin: 0.5rem 0 0; }
+/* Period-over-period delta chips — green up / red down / muted flat. */
+.kpi-delta { margin-top: 0.1rem; display: flex; align-items: center; gap: 0.4rem; }
+.delta { font-weight: 700; font-size: 0.72rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.delta-up { color: var(--up); }
+.delta-down { color: var(--danger); }
+.delta-flat { color: var(--muted); }
+.delta-pill { display: inline-flex; align-items: center; padding: 0.14rem 0.45rem; border-radius: 999px; font-size: 0.75rem; }
+.delta-pill.delta-up { background: color-mix(in srgb, var(--up) 15%, transparent); }
+.delta-pill.delta-down { background: color-mix(in srgb, var(--danger) 15%, transparent); }
+.delta-pill.delta-flat { background: color-mix(in srgb, var(--muted) 14%, transparent); }
+.delta-note { font-size: 0.72rem; color: var(--muted); }
+.kpi-hero .delta-pill { background: rgba(255, 255, 255, 0.18); color: #ffffff; }
+.kpi-hero .delta-note { color: rgba(255, 255, 255, 0.62); }
+
+/* Auto-insights — plain-English takeaways with a colored status dot. */
+.insights-card { padding-top: 1rem; }
+.insights-list { list-style: none; margin: 0.45rem 0 0; padding: 0; display: grid; gap: 0.6rem; }
+.insight { position: relative; padding-left: 1.2rem; font-size: 0.96rem; line-height: 1.45; color: var(--ink); }
+.insight::before { content: ''; position: absolute; left: 0; top: 0.52em; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+.insight-up::before { background: var(--up); }
+.insight-warn::before { background: var(--untagged); }
+.insight strong { font-weight: 700; }
+
+/* Drill-down: filter bar + clickable channel rows. */
+.filter-bar { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; padding: 0.1rem 0; }
+.filter-bar-text { color: var(--muted); font-size: 0.74rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+.filter-chip { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.34rem 0.8rem; border-radius: 999px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--ink); }
+.filter-clear { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 0.34rem 0.8rem; font-weight: 600; font-size: 0.82rem; cursor: pointer; }
+.filter-clear:hover { color: var(--ink); border-color: var(--accent); filter: none; }
+.bar-table tbody tr.drillable { cursor: pointer; }
+.bar-table tbody tr.drillable:hover td { background-color: color-mix(in srgb, var(--accent) 8%, transparent); }
+/* When drilled into one channel, the portfolio-level cards don't apply. */
+body.is-filtered .insights-card,
+body.is-filtered .revenue-card { display: none; }
+
+/* Soft secondary button (Export, Add marker). */
+.btn-soft { background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); font-weight: 700; }
+.btn-soft:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); filter: none; }
+.controls button#export-csv { align-self: flex-end; }
+
+/* Clickable rows in any data-table (portfolio, etc.). */
+.data-table tbody tr.drillable { cursor: pointer; }
+.data-table tbody tr.drillable:hover td { background-color: color-mix(in srgb, var(--accent) 8%, transparent); }
+.data-table tbody tr.is-active td { background-color: color-mix(in srgb, var(--accent) 10%, transparent); font-weight: 700; }
+
+/* Timeline annotation controls + marker pills. */
+.anno-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-top: 0.9rem; }
+.anno-input { width: auto; padding: 0.45rem 0.6rem; }
+.anno-label-input { flex: 1; min-width: 200px; }
+.anno-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+.anno-pill { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.22rem 0.5rem 0.22rem 0.65rem; border-radius: 999px; background: color-mix(in srgb, var(--muted) 12%, transparent); font-size: 0.8rem; color: var(--muted); }
+.anno-pill strong { color: var(--ink); font-weight: 700; }
+.anno-del { background: none; border: none; color: var(--muted); cursor: pointer; padding: 0 0.15rem; font-size: 0.8rem; line-height: 1; }
+.anno-del:hover { color: var(--danger); filter: none; }
+
+/* Loading skeletons while a refresh is in flight. */
+@keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: 0 0; } }
+body.loading .kpi-value {
+  color: transparent;
+  min-height: 2.1rem;
+  border-radius: 8px;
+  background-image: linear-gradient(90deg, color-mix(in srgb, var(--muted) 16%, transparent) 25%, color-mix(in srgb, var(--muted) 28%, transparent) 50%, color-mix(in srgb, var(--muted) 16%, transparent) 75%);
+  background-size: 300% 100%;
+  animation: shimmer 1.3s ease-in-out infinite;
+}
+body.loading .kpi-hero .kpi-value {
+  min-height: 2.7rem;
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.12) 25%, rgba(255, 255, 255, 0.22) 50%, rgba(255, 255, 255, 0.12) 75%);
+  background-size: 300% 100%;
+}
+body.loading .kpi-delta, body.loading .kpi-sub { visibility: hidden; }
+body.loading .data-table, body.loading .chart-box, body.loading .insights-list { opacity: 0.4; transition: opacity 0.2s ease; }
+.kpi-highlight {
+  border-color: #badcda;
+  background: linear-gradient(180deg, #ffffff, #f7fbfb);
+  box-shadow: inset 0 2px 0 var(--accent);
+}
+
+.kpi-highlight .kpi-value {
+  color: var(--accent);
+}
+
+/* Visual hierarchy ----------------------------------------------------------
+   This dashboard answers one question: "which UTM-tagged channels are worth
+   repeating?" The metrics that answer it are promoted to a hero tier — bigger
+   numerals, a stronger accent rule, and pulled to the front of the KPI row so
+   the eye lands there first. Source/medium/campaign sit at the secondary tier;
+   term/content and the referrer/page tables recede as supporting. */
+.kpi-hero {
+  order: -1;
+  border: none;
+  color: #ffffff;
+  /* Deep-teal hero cards — the page's bold color anchor. White numerals on a
+     rich gradient read as premium and unmistakably "this is what matters". */
+  background: linear-gradient(155deg, #0b3b3a 0%, #0a6e6c 100%);
+  box-shadow: 0 14px 30px -16px rgba(8, 60, 58, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.kpi-hero .kpi-label { color: rgba(255, 255, 255, 0.74); }
+.kpi-hero .kpi-value { color: #ffffff; font-size: clamp(2.8rem, 4vw, 3.5rem); }
+.kpi-hero .kpi-value.kpi-text { font-size: clamp(1.35rem, 2.4vw, 1.7rem); line-height: 1.14; }
+.kpi-hero .kpi-sub { color: rgba(255, 255, 255, 0.64); }
+/* Iteration 2 — shrink the secondary counts (pageviews, uniques) so the size
+   ramp reads hero > secondary > table and the two teal heroes clearly win. */
+.kpi:not(.kpi-hero) .kpi-value { font-size: clamp(1.7rem, 2.3vw, 2.1rem); }
+
+/* Source is the lead breakdown — a brighter, thicker top rule and a faint wash
+   so it reads as the hero card among the source/medium/campaign trio. */
+.utm-grid .card.utm-hero {
+  border-top: 3px solid var(--accent-bright);
+  background: linear-gradient(180deg, #f2f9f8, #ffffff 55%);
+}
+.utm-grid .card.utm-hero .card-head h3 { font-size: 1.25rem; }
+
+/* Term & content are supporting — drop the teal signature to a neutral line
+   and mute the key chip so they recede behind the hero/secondary cards. */
+/* Term/content recede only via a lighter top border now — no gray bars. They
+   keep the teal share bars so the page reads colorful, not washed out. */
+.utm-grid .card.utm-supporting { border-top-color: var(--line); }
+
+.section-title { font-family: var(--display); font-size: 1.5rem; line-height: 1.05; margin: 0.35rem 0 0; font-weight: 700; letter-spacing: -0.01em; }
 .section-sub { margin: 0 0 -0.25rem; }
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3rem;
+  margin-bottom: 0.8rem;
+}
+
+.section-head h2,
+.section-head p {
+  margin-bottom: 0;
+}
+
+.section-head > p {
+  max-width: none;
+  text-align: left;
+}
+
+.section-head-loose {
+  margin: 0.2rem 0 -0.35rem;
+}
+
+.section-eyebrow {
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.chart-card {
+  padding-bottom: 1.15rem;
+}
 
 .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; }
 .row-between { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; }
 
 .utm-grid { display: grid; gap: 1rem; }
-.utm-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.utm-grid-3 { grid-template-columns: 1.15fr 1fr 1.25fr; }
 .utm-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.utm-grid .card { display: flex; flex-direction: column; min-width: 0; }
-.card-head { display: flex; flex-direction: column; gap: 0.1rem; margin-bottom: 0.6rem; }
-.card-head h3 { margin: 0; font-size: 1rem; }
-.card-head .muted { font-size: 0.78rem; }
+/* UTM cards carry a teal top rule — the section's visual signature, marking
+   it apart from the generic referrer/country cards as the product's core. */
+.utm-grid .card { display: flex; flex-direction: column; min-width: 0; box-shadow: none; border-top: 2px solid var(--accent); padding-top: 1rem; }
+.card-head { display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; margin-bottom: 0.7rem; }
+.card-head h3 { margin: 0; font-size: 1.1rem; }
+/* utm_key rendered as a mono chip, not a muted caption — deliberate, branded. */
+.card-head .muted {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  background: #e8f5f4;
+  padding: 0.12rem 0.45rem;
+  border-radius: 5px;
+}
 
 @media (max-width: 900px) {
   .utm-grid-3 { grid-template-columns: 1fr 1fr; }
@@ -104,24 +403,44 @@ p { margin: 0 0 0.75rem; }
   .utm-grid-3, .utm-grid-2 { grid-template-columns: 1fr; }
 }
 
-.data-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
-.data-table th, .data-table td { text-align: left; padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--line); }
-.data-table th { color: var(--muted); font-weight: 500; font-size: 0.82rem; }
-.data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; table-layout: fixed; }
+.data-table th, .data-table td { text-align: left; padding: 0.52rem 0.5rem; border-bottom: 1px solid var(--line); }
+.data-table tr:last-child td { border-bottom: 0; }
+.data-table th { color: var(--muted); font-weight: 700; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
+/* Under table-layout: fixed, columns split evenly unless sized. Pin the number
+   columns narrow so the label/host column (the one that matters) gets the room
+   and stops truncating early. */
+.data-table th.num, .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; width: 4.75rem; }
+.data-table td:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* Inline bar inside table rows — used in the UTM cards so each row shows
    relative share at a glance, instead of forcing the eye to compare numbers. */
 .bar-table td.bar-label {
   position: relative;
-  background: linear-gradient(to right,
-    rgba(108, 76, 245, 0.16) 0,
-    rgba(108, 76, 245, 0.16) var(--pct, 0%),
-    transparent var(--pct, 0%));
-  font-weight: 500;
-  max-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  padding-bottom: 0.85rem;
+  font-weight: 600;
+}
+/* Row label: channel name truncates on the left; share % + delta stay pinned
+   right so the momentum signal is never clipped. */
+.bar-table td.bar-label .bl-row { display: flex; align-items: center; min-width: 0; }
+.bar-table td.bar-label .bl-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.bar-table td.bar-label .bl-meta { flex: 0 0 auto; margin-left: auto; padding-left: 0.5rem; display: inline-flex; align-items: center; gap: 0.45rem; }
+/* Solid, full-saturation share bar along the bottom of the row — bolder than a
+   tint and keeps the label crisp (text sits on the card, not on the bar). */
+.bar-table td.bar-label::after {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.3rem;
+  height: 6px;
+  width: var(--pct, 0%);
+  max-width: calc(100% - 1rem);
+  background: var(--bar, var(--accent));
+  border-radius: 3px;
 }
 .bar-table td.bar-label .pct {
   color: var(--muted);
@@ -130,13 +449,69 @@ p { margin: 0 0 0.75rem; }
   margin-left: 0.4rem;
 }
 
+/* Per-card insight line — the leading tagged value + its share, so the eye
+   lands on the takeaway before scanning rows (insight-first, not table-first). */
+.utm-insight {
+  caption-side: top;
+  text-align: left;
+  margin-bottom: 0.7rem;
+  padding: 0.65rem 0.7rem;
+  border-radius: 7px;
+  background: #f7fbfb;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.3;
+}
+.utm-insight strong {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: var(--ink);
+}
+
+/* Untagged ("(none)") rows get a neutral-warning treatment — gray bar, muted
+   italic — so missing-tag traffic reads as a gap, not a real source. */
+.bar-table tr.untagged td.bar-label {
+  color: var(--muted);
+  font-weight: 600;
+  font-style: italic;
+  box-shadow: inset 2px 0 0 var(--untagged);
+}
+.bar-table tr.untagged td.bar-label::after { background: var(--untagged); }
+
+.data-table tbody tr:hover td {
+  background-color: #fbfcfd;
+}
+
+/* Channel dot — a small brand-color marker that gives each source a crisp
+   identity (Facebook blue, YouTube red, TikTok black…) without the row-height
+   hit a logo chip caused. --ch carries the brand color in. */
+.ch-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 0.55rem;
+  flex: 0 0 auto;
+  vertical-align: middle;
+  background: var(--ch, var(--muted));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ch, var(--muted)) 16%, transparent);
+}
+.utm-insight .ch-dot { width: 8px; height: 8px; }
+
+/* Premium lift — breakdown cards rise slightly on hover so the page feels
+   tactile, not flat. The reduced-motion rule above neutralizes this on opt-out. */
+.utm-grid .card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+.utm-grid .card:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -14px rgba(23, 25, 28, 0.22); }
+
 /* Fixed-height boxes around Chart.js canvases. Without these the chart
    either over-grows on wide screens (aspect ratio runs away) or collapses
    to 0 in flex containers. maintainAspectRatio: false in the chart config
    pairs with these — the box dictates the size. */
 .chart-box { position: relative; width: 100%; }
-.chart-box-sm { height: 180px; }
-.chart-box-md { height: 220px; }
+.chart-box-sm { height: 190px; }
+.chart-box-md { height: 230px; }
 .chart-box canvas { width: 100% !important; height: 100% !important; }
 
 /* Inline help bubble — small "?" next to a heading or column, hover/focus
@@ -149,7 +524,7 @@ p { margin: 0 0 0.75rem; }
   height: 16px;
   margin-left: 0.35rem;
   border-radius: 50%;
-  background: var(--line);
+  background: #e8f5f4;
   color: var(--muted);
   font-size: 0.72rem;
   font-weight: 600;
@@ -199,21 +574,42 @@ p { margin: 0 0 0.75rem; }
 
 input[type="text"], input[type="url"], input[type="password"], select {
   font: inherit;
-  padding: 0.55rem 0.7rem;
+  padding: 0.62rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: #ffffff;
   color: var(--ink);
   width: 100%;
 }
-input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+input:focus, select:focus { outline: 2px solid rgba(0, 143, 140, 0.28); outline-offset: 2px; border-color: var(--accent); }
+/* Iteration 6 — accessibility sweep: visible keyboard focus on links/buttons/
+   help bubbles, and honor reduced-motion for users who opt out of animation. */
+a:focus-visible, button:focus-visible, .help:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2rem;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5l3.5 3.5 3.5-3.5' stroke='%23007c7a' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 12px;
+  cursor: pointer;
+}
 
 button, .btn {
   font: inherit;
-  font-weight: 500;
+  font-weight: 750;
   border: none;
   border-radius: 8px;
-  padding: 0.55rem 0.95rem;
+  padding: 0.62rem 0.95rem;
   background: var(--accent);
   color: var(--accent-ink);
   cursor: pointer;
@@ -227,21 +623,55 @@ button.link {
 button.link:hover { text-decoration: underline; filter: none; }
 button.danger { background: var(--danger); }
 
-pre { background: #f0f0f5; border-radius: 8px; padding: 0.75rem; overflow-x: auto; }
+pre { background: #f0f4f5; border: 1px solid var(--line); border-radius: 8px; padding: 0.85rem; overflow-x: auto; }
 code { font-family: var(--mono); font-size: 0.85rem; }
 
 form { display: grid; gap: 0.75rem; }
 form label { display: grid; gap: 0.25rem; font-size: 0.85rem; color: var(--muted); }
 form input { color: var(--ink); }
 
-.login-page { min-height: 100vh; display: grid; place-items: center; }
-.login-card { width: 100%; max-width: 380px; }
+.login-page { min-height: 100vh; display: grid; place-items: center; padding: 1rem; }
+.login-card { width: 100%; max-width: 430px; padding: 1.5rem; }
+.login-card h1 { font-size: 2.5rem; max-width: 9ch; }
+.login-card .proof-chips { margin: 0.2rem 0 1rem; }
 
 .utm-form { gap: 1rem; }
 .utm-presets { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.utm-presets button { background: var(--bg); color: var(--ink); border: 1px solid var(--line); }
+.utm-presets button { background: #eef7f6; color: var(--ink); border: 1px solid #d2e8e7; }
+.utm-presets button:hover { background: #e1f2f1; filter: none; }
+
+.empty-state {
+  padding: 1rem;
+  color: var(--muted);
+  background: #f8faf2;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+.builder-output {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.25rem;
+}
 
 @media (max-width: 640px) {
   .topbar { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
   .topbar nav { flex-wrap: wrap; }
+  .hero-panel { grid-template-columns: 1fr; align-items: start; }
+  .controls { justify-content: stretch; }
+  .controls label { min-width: 100%; }
+  .container { padding: 1rem; }
+  h1 { font-size: 2.4rem; }
+  .proof-chips { gap: 0.7rem; }
+  .proof-chips span { font-size: 0.78rem; }
+  .kpis { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .kpi { min-height: 108px; padding: 0.9rem; }
+  .kpi-value { font-size: 2rem; }
+  .kpi-value.kpi-text { font-size: 1rem; }
+  .section-head { display: grid; gap: 0.4rem; align-items: start; }
+  .section-head > p { text-align: left; max-width: none; }
+  .chart-box-sm { height: 170px; }
+  .chart-box-md { height: 190px; }
+  .data-table { font-size: 0.84rem; }
+  .data-table th, .data-table td { padding: 0.48rem 0.35rem; }
 }
